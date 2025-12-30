@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📚 Library Management System</h1>
+
+    <div class="menu">
+        <button onclick="showSection('book')">Add Book</button>
+        <button onclick="showSection('member')">Register Member</button>
+        <button onclick="showSection('borrow')">Borrow Book</button>
+        <button onclick="showSection('return')">Return Book</button>
+    </div>
+
+    <!-- Add Book -->
+    <div class="card hidden" id="book">
+        <h2>Add Book</h2>
+        <input type="text" id="isbn" placeholder="ISBN">
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="author" placeholder="Author">
+        <button onclick="addBook()">Add</button>
+        <p class="msg" id="bookMsg"></p>
+    </div>
+
+    <!-- Register Member -->
+    <div class="card hidden" id="member">
+        <h2>Register Member</h2>
+        <input type="number" id="mid" placeholder="Member ID">
+        <input type="text" id="mname" placeholder="Member Name">
+        <button onclick="registerMember()">Register</button>
+        <p class="msg" id="memberMsg"></p>
+    </div>
+
+    <!-- Borrow -->
+    <div class="card hidden" id="borrow">
+        <h2>Borrow Book</h2>
+        <input type="number" id="bid" placeholder="Member ID">
+        <input type="text" id="bisbn" placeholder="Book ISBN">
+        <button onclick="borrowBook()">Borrow</button>
+        <p class="msg" id="borrowMsg"></p>
+    </div>
+
+    <!-- Return -->
+    <div class="card hidden" id="return">
+        <h2>Return Book</h2>
+        <input type="number" id="rid" placeholder="Member ID">
+        <input type="text" id="risbn" placeholder="Book ISBN">
+        <input type="number" id="days" placeholder="Days Late">
+        <button onclick="returnBook()">Return</button>
+        <p class="msg" id="returnMsg"></p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
