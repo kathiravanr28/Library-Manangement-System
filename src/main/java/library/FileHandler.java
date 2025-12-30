@@ -2,6 +2,7 @@ package library;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FileHandler {
 
@@ -23,6 +24,31 @@ public class FileHandler {
             }
         } catch (IOException e) {
             System.out.println("File write error!");
+        }
+    }
+
+     public static void exportBooksToCSV(List<Book> books) {
+        String filePath = "data/books_export.csv";
+
+        try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
+
+            // CSV Header
+            pw.println("ISBN,Title,Author,Available");
+
+            // CSV Rows
+            for (Book book : books) {
+                pw.println(
+                    book.getIsbn() + "," +
+                    book.getTitle() + "," +
+                    book.getAuthor() + "," +
+                    book.isAvailable()
+                );
+            }
+
+            System.out.println("Books exported successfully to " + filePath);
+
+        } catch (IOException e) {
+            System.out.println("Error exporting books to CSV!");
         }
     }
 }

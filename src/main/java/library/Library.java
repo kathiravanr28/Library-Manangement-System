@@ -1,10 +1,15 @@
 package library;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Library {
+
     private ArrayList<Book> books = new ArrayList<>();
     private ArrayList<Member> members = new ArrayList<>();
+
+    // Reservation system: ISBN → Member ID
+    private HashMap<String, Integer> reservations = new HashMap<>();
 
     private final String BOOK_FILE = "data/books.txt";
     private final String MEMBER_FILE = "data/members.txt";
@@ -13,6 +18,8 @@ public class Library {
         loadBooks();
         loadMembers();
     }
+
+    /* ---------- BOOK & MEMBER MANAGEMENT ---------- */
 
     public void addBook(Book book) {
         books.add(book);
@@ -38,19 +45,36 @@ public class Library {
         return null;
     }
 
+    /* ---------- BORROW / RETURN ---------- */
+
     public void borrowBook(int memberId, String isbn) {
         Book book = findBook(isbn);
         Member member = findMember(memberId);
 
-        if (book == null || member == null || !book.isAvailable()) {
-            System.out.println("Borrow failed!");
+        if (book == null || member == null) {
+            System.out.println("Invalid member or book!");
+            return;
+        }
+
+        if (!book.isAvailable()) {
+            System.out.println("Book not available. You can reserve it.");
+            return;
+        }
+
+        // Reservation check
+        if (reservations.containsKey(isbn) &&
+            reservations.get(isbn) != memberId) {
+            System.out.println("Book reserved by another member!");
             return;
         }
 
         book.setAvailable(false);
         member.borrowBook(isbn);
+        reservations.remove(isbn);
+
         saveBooks();
         saveMembers();
+
         System.out.println("Book borrowed successfully.");
     }
 
@@ -70,14 +94,57 @@ public class Library {
         saveMembers();
     }
 
+    /* ---------- RESERVATION SYSTEM (ADVANCED FEATURE) ---------- */
+
+    public void reserveBook(int memberId, String isbn) {
+        Book book = findBook(isbn);
+        Member member = findMember(memberId);
+
+        if (book == null || member == null) {
+            System.out.println("Invalid details!");
+            return;
+        }
+
+        if (book.isAvailable()) {
+            System.out.println("Book is available. No need to reserve.");
+            return;
+        }
+
+        reservations.put(isbn, memberId);
+        System.out.println("Book reserved successfully.");
+    }
+
+    /* ---------- DISPLAY & SEARCH ---------- */
+
     public void showBooks() {
         books.forEach(b ->
-            System.out.println(b.getIsbn() + " | " + b.getTitle() + " | " +
-                               (b.isAvailable() ? "Available" : "Borrowed"))
+            System.out.println(
+                b.getIsbn() + " | " +
+                b.getTitle() + " | " +
+                b.getAuthor() + " | " +
+                (b.isAvailable() ? "Available" : "Borrowed")
+            )
         );
     }
 
-    /* ---------- File Load/Save ---------- */
+    /* ---------- STATISTICS ---------- */
+
+    public void showStatistics() {
+        long available = books.stream().filter(Book::isAvailable).count();
+        long borrowed = books.size() - available;
+
+        System.out.println("Total Books: " + books.size());
+        System.out.println("Available: " + available);
+        System.out.println("Borrowed: " + borrowed);
+    }
+
+    /* ---------- CSV EXPORT (ADVANCED FEATURE) ---------- */
+
+    public void exportBooksToCSV() {
+        FileHandler.exportBooksToCSV(books);
+    }
+
+    /* ---------- FILE LOAD / SAVE ---------- */
 
     private void loadBooks() {
         for (String line : FileHandler.readFile(BOOK_FILE)) {
