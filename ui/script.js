@@ -47,3 +47,18 @@ function returnBook() {
         : "Book returned ✔";
     returnMsg.style.color = "green";
 }
+
+// Mock data (for demo – Java console is the real logic)
+let stats = {
+    totalBooks: 4,
+    availableBooks: 3,
+    borrowedBooks: 1,
+    totalMembers: 5
+};
+
+function loadStatistics() {
+    document.getElementById("totalBooks").innerText = stats.totalBooks;
+    document.getElementById("availableBooks").innerText = stats.availableBooks;
+    document.getElementById("borrowedBooks").innerText = stats.borrowedBooks;
+    document.getElementById("totalMembers").innerText = stats.totalMembers;
+}

@@ -15,6 +15,8 @@
         <button onclick="showSection('member')">Register Member</button>
         <button onclick="showSection('borrow')">Borrow Book</button>
         <button onclick="showSection('return')">Return Book</button>
+        <button onclick="showSection('stats')">Library Statistics</button>
+
     </div>
 
     <!-- Add Book -->
@@ -54,6 +56,18 @@
         <button onclick="returnBook()">Return</button>
         <p class="msg" id="returnMsg"></p>
     </div>
+
+    <!-- Statistics -->
+     <div class="card hidden" id="stats">
+    <h2>📊 Library Statistics</h2>
+
+    <p>Total Books: <span id="totalBooks">0</span></p>
+    <p>Available Books: <span id="availableBooks">0</span></p>
+    <p>Borrowed Books: <span id="borrowedBooks">0</span></p>
+    <p>Registered Members: <span id="totalMembers">0</span></p>
+
+    <button onclick="loadStatistics()">Refresh Statistics</button>
+</div>
 </div>
 
 <script src="script.js"></script>

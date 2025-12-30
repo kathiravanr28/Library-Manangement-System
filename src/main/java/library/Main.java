@@ -54,7 +54,9 @@ public class Main {
                     System.out.print("Days Late: ");
                     library.returnBook(id, isbn, sc.nextInt());
                 }
-                case 6 -> System.exit(0);
+                case 6 -> library.showStatistics();
+
+                case 7 -> System.exit(0);
                 default -> System.out.println("Invalid choice!");
             }
         }
